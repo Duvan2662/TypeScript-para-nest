@@ -1,15 +1,25 @@
 import axios from "axios";
-import { PokeAPIResponse } from "../interfaces/pokeapi-response.interface";
 
+
+
+export class PokeApiFetchAdapter {
+
+    public async getRequest<T>(url: string): Promise<T> {
+        const resp = await fetch(url);
+        const data:T = await resp.json();
+
+        return data;
+    }
+}
 
 
 export class PokeApiAdapter {
     
     private readonly axios = axios;
 
-    public async getRequest(url: string) {
+    public async getRequest<T>(url: string): Promise<T> {
         //peticion get
-        const { data } = await this.axios.get(url);
+        const { data } = await this.axios.get<T>(url);
         return data
     }
     public async postRequest(url: string, data:any) {
